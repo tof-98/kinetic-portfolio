@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+const { title = 'Toufic Hanna — Full-Stack Developer' } = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <slot />
+  <script is:inline src="/image-slot.js"></script>
+  <script>
+    // Bar scroll + active nav link
+    const bar = document.getElementById('bar') as HTMLElement;
+    const links = [...document.querySelectorAll<HTMLAnchorElement>('.bar nav a')];
+    const ids = ['about', 'work', 'stack', 'history', 'contact'];
+    const onScroll = () => {
+      bar.classList.toggle('stuck', scrollY > 40);
+      const y = scrollY + innerHeight * 0.35;
+      let cur = '';
+      ids.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && el.offsetTop <= y) cur = id;
+      });
+      links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#' + cur));
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // Reveal observer
+    const io = new IntersectionObserver(
+      es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+      { threshold: 0.12 }
+    );
+    document.querySelectorAll('.rv:not(.in)').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>

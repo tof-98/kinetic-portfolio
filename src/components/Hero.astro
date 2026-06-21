@@ -1,0 +1,34 @@
+---
+import { TICK } from '../data/portfolio';
+const seg = TICK.map(t => `${t}<i>✦</i>`).join('');
+---
+<header class="hero">
+  <div class="wrap">
+    <div class="eye">
+      <span class="b">●</span>
+      <span>Toufic Hanna</span>
+      <span>·</span>
+      <span>Hall in Tirol, AT</span>
+      <span>·</span>
+      <span>Open to remote</span>
+    </div>
+    <h1 class="mega">
+      <span class="l"><span>Full-</span></span>
+      <span class="l"><span>Stack</span></span>
+      <span class="l"><span>Developer</span></span>
+    </h1>
+    <div class="hero-sub">
+      <p>
+        Production web apps with <b>Java, Spring &amp; React</b> — engineered to ship, scale, and stay secure.
+        Currently shipping full-stack at <b>LITTERA Software &amp; Consulting</b>.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-solid" href="#work">View work <span class="ar">↗</span></a>
+        <a class="btn btn-ghost" href="#contact">Get in touch</a>
+      </div>
+    </div>
+  </div>
+  <div class="ticker">
+    <div class="track" set:html={`<span>${seg}</span><span>${seg}</span>`}></div>
+  </div>
+</header>

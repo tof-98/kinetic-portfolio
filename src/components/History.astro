@@ -1,0 +1,125 @@
+---
+---
+<section id="history" data-screen-label="History">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="num">04</span>
+      <span class="nm">History</span>
+      <span class="rule"></span>
+      <span class="meta">2016 → now</span>
+    </div>
+    <div class="gitlog rv">
+      <div class="pbar">
+        <span class="dot"></span>
+        <span class="cmd">$ <b>git log</b> --graph --decorate --oneline</span>
+        <span class="live"><i></i>HEAD · main</span>
+      </div>
+      <div class="body">
+        <div class="commit head">
+          <div class="rail"><span class="node"></span></div>
+          <div class="cm">
+            <div class="cm-top">
+              <span class="hash">a4f2e1c</span>
+              <span class="ref headref"><span class="pt">HEAD →</span> main</span>
+              <span class="when">2024 — NOW</span>
+            </div>
+            <h3>Application Programmer<span class="caret"></span></h3>
+            <div class="co">LITTERA Software &amp; Consulting · Hall in Tirol, AT</div>
+            <ul class="msg">
+              <li>Develop and optimise multi-layer web applications — performance, stability, maintainability.</li>
+              <li>Design and implement RESTful APIs with authentication, documentation, and versioning.</li>
+              <li>Shipped MFA (TOTP), SAML SSO with external partners, star-rating system, Scaleway email API, RFID migration, Solr autocomplete.</li>
+              <li>Mentored and supported an intern through onboarding, feedback, and code reviews.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="commit">
+          <div class="rail"><span class="node"></span></div>
+          <div class="cm">
+            <div class="cm-top">
+              <span class="hash">·······</span>
+              <span class="ref"><span class="pt">tag:</span> wip</span>
+              <span class="when">2022 — 2024</span>
+            </div>
+            <h3>Placeholder milestone</h3>
+            <div class="co">To be added — we'll fill this commit in later</div>
+            <ul class="msg diff">
+              <li>Bridges the gap between graduation and the current role.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="commit merge">
+          <div class="rail"><span class="node"></span></div>
+          <div class="cm">
+            <div class="cm-top">
+              <span class="hash">8c1d09b</span>
+              <span class="ref"><span class="pt">tag:</span> edu</span>
+              <span class="when">2016 — 2022</span>
+            </div>
+            <h3>B.Sc. Computer Science</h3>
+            <div class="co">University of Lattakia · Syria · EQF 6</div>
+            <ul class="msg diff">
+              <li>Software Engineering &amp; Information Systems.</li>
+              <li>Focus on database design, network administration, and software development &amp; analysis.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Timeline pulse animation
+  (function () {
+    const body = document.querySelector<HTMLElement>('#history .gitlog .body');
+    if (!body) return;
+    const nodes = [...body.querySelectorAll<HTMLElement>('.commit .node')];
+    if (!nodes.length) return;
+
+    const trail = document.createElement('span'); trail.className = 'tl-trail';
+    const pulse = document.createElement('span'); pulse.className = 'tl-pulse';
+    body.append(trail, pulse);
+
+    let topY = 0, botY = 0, centers: { el: HTMLElement; y: number; x: number }[] = [];
+    function measure() {
+      const b = body!.getBoundingClientRect();
+      centers = nodes.map(n => { const r = n.getBoundingClientRect(); return { el: n, y: r.top - b.top + r.height / 2, x: r.left - b.left + r.width / 2 }; });
+      topY = centers[0].y;
+      botY = centers[centers.length - 1].y;
+      const x = centers[0].x;
+      pulse.style.left = x + 'px'; trail.style.left = x + 'px';
+    }
+    const A = () => { const n = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--A')); return n > 0 ? n : 1; };
+    function reset() { nodes.forEach(n => n.classList.remove('lit')); }
+    function lightTo(y: number) { centers.forEach(c => { if (y <= c.y + 0.5) c.el.classList.add('lit'); }); }
+
+    const TRAVEL = 5200, HOLD = 1100;
+    let raf: number | null = null, t0: number | null = null, lastE = 0;
+    function loop(t: number) {
+      const a = A(), dur = TRAVEL / a, total = dur + HOLD / a;
+      if (t0 == null) { t0 = t; measure(); }
+      const e = (t - t0) % total;
+      if (e < lastE) reset();
+      lastE = e;
+      if (e < dur) {
+        const p = e / dur;
+        const y = botY + (topY - botY) * p;
+        pulse.style.top = y + 'px'; trail.style.top = y + 'px';
+        const o = p < 0.05 ? p / 0.05 : (p > 0.97 ? (1 - p) / 0.03 : 1);
+        pulse.style.opacity = String(o); trail.style.opacity = String(o * 0.85);
+        lightTo(y);
+      } else {
+        pulse.style.opacity = '0'; trail.style.opacity = '0';
+        centers.forEach(c => c.el.classList.add('lit'));
+      }
+      raf = requestAnimationFrame(loop);
+    }
+    addEventListener('resize', () => { if (raf) measure(); }, { passive: true });
+    const vio = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { if (!raf) { t0 = null; lastE = 0; raf = requestAnimationFrame(loop); } }
+      else if (raf) { cancelAnimationFrame(raf); raf = null; }
+    }), { threshold: 0.12 });
+    vio.observe(document.getElementById('history')!);
+  })();
+</script>

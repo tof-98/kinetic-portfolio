@@ -1,0 +1,47 @@
+---
+---
+<div class="bar" id="bar">
+  <a class="id" href="#top"><span class="sq"></span>TOUFIC HANNA</a>
+  <nav>
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#stack">Stack</a>
+    <a href="#history">History</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <span class="av"><span class="led"></span>AVAILABLE — SEP 2026</span>
+  <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+    <span></span><span></span>
+  </button>
+</div>
+
+<div class="navsheet" id="navSheet" aria-hidden="true">
+  <nav>
+    <a href="#about"><span class="mn-i">01</span>About</a>
+    <a href="#work"><span class="mn-i">02</span>Work</a>
+    <a href="#stack"><span class="mn-i">03</span>Stack</a>
+    <a href="#history"><span class="mn-i">04</span>History</a>
+    <a href="#contact"><span class="mn-i">05</span>Contact</a>
+  </nav>
+  <div class="navsheet-foot">
+    <span><span class="ac">●</span> Available — Sep 2026</span>
+    <span>Hall in Tirol, AT</span>
+  </div>
+</div>
+
+<script>
+  const burger = document.getElementById('burger') as HTMLButtonElement;
+  const sheet = document.getElementById('navSheet') as HTMLElement;
+  if (burger && sheet) {
+    const set = (o: boolean) => {
+      burger.classList.toggle('open', o);
+      sheet.classList.toggle('open', o);
+      burger.setAttribute('aria-expanded', o ? 'true' : 'false');
+      sheet.setAttribute('aria-hidden', o ? 'false' : 'true');
+      document.body.style.overflow = o ? 'hidden' : '';
+    };
+    burger.addEventListener('click', () => set(!sheet.classList.contains('open')));
+    sheet.querySelectorAll('a').forEach(a => a.addEventListener('click', () => set(false)));
+    addEventListener('keydown', e => { if (e.key === 'Escape' && sheet.classList.contains('open')) set(false); });
+  }
+</script>

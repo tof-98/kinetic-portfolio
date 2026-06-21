@@ -1,0 +1,72 @@
+---
+import { HL } from '../data/portfolio';
+---
+<section id="work" data-screen-label="Work">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="num">02</span>
+      <span class="nm">Selected work</span>
+      <span class="rule"></span>
+      <span class="meta">12 shipped</span>
+    </div>
+
+    <div class="kw-hi rv">
+      {HL.map(h => (
+        <article class={`kw-c ${h.size} ${h.hue}`}>
+          <div class="kw-thumb">
+            <span class="kw-gtag">{h.group}</span>
+            <span class="kw-wm">{h.n}</span>
+            <div class="kw-glyph" set:html={`${h.glyph[0]}<br>${h.glyph[1]}`}></div>
+          </div>
+          <div class="kw-body">
+            <div class="kw-meta">{h.scale}</div>
+            <h3 class="kw-name">{h.name}</h3>
+            <p class="kw-desc">{h.desc}</p>
+            <div class="kw-tags">
+              {h.tags.map(t => <span>{t}</span>)}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <article class="kw-side rv">
+      <header class="ks-bar">
+        <span class="ks-dot"></span>
+        <span class="ks-host">vaultwarden · oracle cloud</span>
+        <span class="ks-stat">TLS ✓</span>
+        <span class="ks-stat ac">uptime 100%</span>
+        <span class="ks-live"><i></i>LIVE · ZERO DOWNTIME</span>
+      </header>
+      <div class="ks-grid">
+        <div class="ks-info">
+          <div class="kw-meta">Side project · Self-hosting · Security</div>
+          <h3 class="ks-name">Vaultwarden Password Manager</h3>
+          <p class="ks-desc">Self-hosted on Oracle Cloud with Docker, an NGINX reverse proxy and SSL certificates — running in production with persistent storage and zero downtime.</p>
+          <div class="kw-tags">
+            <span>Docker</span><span>Oracle Cloud</span><span>NGINX</span><span>Linux</span>
+          </div>
+        </div>
+        <div class="ks-flow" aria-hidden="true">
+          <div class="kp-head">
+            <span>Request path</span>
+            <span class="kp-trace">GET / · 200</span>
+          </div>
+          <div class="kp-pipe" style="--n:5">
+            <span class="kp-rail"></span>
+            <div class="kp-node" style="--i:0"><span class="kp-charge"></span><span class="kp-mk"></span><div class="kp-txt"><b>HTTPS</b><span>client request</span></div><span class="kp-tag">:443</span></div>
+            <div class="kp-node" style="--i:1"><span class="kp-charge"></span><span class="kp-mk"></span><div class="kp-txt"><b>NGINX</b><span>reverse proxy · SSL</span></div><span class="kp-tag">TLS 1.3</span></div>
+            <div class="kp-node" style="--i:2"><span class="kp-charge"></span><span class="kp-mk"></span><div class="kp-txt"><b>Docker</b><span>container runtime</span></div><span class="kp-tag">bridge</span></div>
+            <div class="kp-node" style="--i:3"><span class="kp-charge"></span><span class="kp-mk"></span><div class="kp-txt"><b>Vaultwarden</b><span>encrypted vault</span></div><span class="kp-tag">AES-256</span></div>
+            <div class="kp-node" style="--i:4"><span class="kp-charge"></span><span class="kp-mk"></span><div class="kp-txt"><b>Volume</b><span>persistent storage</span></div><span class="kp-tag">mount</span></div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <div class="work-foot rv">
+      <span>+ tenant management · batch cataloguing · library ordering · RFID migration</span>
+      <span>live for real customers — AT &amp; DE</span>
+    </div>
+  </div>
+</section>

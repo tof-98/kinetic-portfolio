@@ -1,0 +1,83 @@
+---
+import { SKILLS } from '../data/portfolio';
+
+const TIER_NAME: Record<number, string> = { 3: 'core', 2: 'proficient', 1: 'familiar' };
+const lastIx = String(SKILLS.length).padStart(2, '0');
+---
+<section id="stack" data-screen-label="Stack">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="num">03</span>
+      <span class="nm">Stack</span>
+      <span class="rule"></span>
+      <span class="meta">core / proficient / familiar</span>
+    </div>
+
+    <div class="dp-wrap rv" id="stackGrid">
+      {SKILLS.map((s, i) => {
+        const present = ([3, 2, 1] as const).filter(t => s.items.some(([, tt]) => tt === t));
+        const coreN = s.items.filter(([, t]) => t === 3).length;
+        const tally = coreN ? `${s.items.length} skills · ${coreN} core` : `${s.items.length} skills`;
+        return (
+          <div class="dp-lane">
+            <span class="dp-ghost" aria-hidden="true">{s.ghost ?? s.name}</span>
+            <div class="dp-meta">
+              <span class="dp-ix">0{i + 1} / {lastIx}</span>
+              <h3 class="dp-dom">{s.name}</h3>
+              <span class="dp-tick"></span>
+              <span class="dp-note">{s.note}</span>
+              <span class="dp-count">{tally}</span>
+            </div>
+            <div class="dp-skills">
+              {present.map((t, ri) => {
+                const arr = s.items.filter(([, tt]) => tt === t).map(([n]) => n);
+                const hero = ri === 0;
+                const lineClass = hero ? 'core' : t === 2 ? 'prof' : 'fam';
+                return (
+                  <div class="dp-row">
+                    <span class="dp-cap">{TIER_NAME[t]}</span>
+                    <div class={`dp-line ${lineClass}`}>
+                      {hero
+                        ? arr.map((n, wi) => (
+                            <>
+                              <span style={`--d:${wi}`}>{n}</span>
+                              {wi < arr.length - 1 && <span class="sep">/</span>}
+                            </>
+                          ))
+                        : arr.map((n, ni) => (
+                            <>
+                              <span>{n}</span>
+                              {ni < arr.length - 1 && <span class="sd">·</span>}
+                            </>
+                          ))
+                      }
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <div class="stack-coda rv">
+      <span class="coda-k">// How I learn</span>
+      <p class="coda-q">Go deep until I <span class="ac">truly understand</span> a tool.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Stack lane reveal
+  const lanes = document.querySelectorAll('#stackGrid .dp-lane');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(
+      es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }),
+      { threshold: 0.2 }
+    );
+    lanes.forEach(l => io.observe(l));
+  } else {
+    lanes.forEach(l => l.classList.add('in'));
+  }
+</script>
