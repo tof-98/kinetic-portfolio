@@ -1,109 +1,122 @@
 # Kinetic Portfolio
 
-Main portfolio site built with Astro.
+A minimal, fast personal portfolio built with [Astro](https://astro.build). Showcases projects, skills, and contact information — deployed as a Docker container behind a Caddy reverse proxy.
 
-A minimal, fast personal portfolio showcasing projects and contact information. The site uses Astro with standard web technologies (HTML, CSS, JavaScript, and a bit of TypeScript).
-
-## Features
-
-- Fast, static site built with Astro
-- Simple, responsive layout
-- Static assets served from the `public/` folder
-- Containerized with Docker, served via Nginx
+---
 
 ## Tech stack
 
-- Astro
-- HTML
-- CSS
-- JavaScript
-- TypeScript (config only)
-- Docker (multi-stage build)
-- Nginx (static file serving in container)
+| Layer | Technology |
+|-------|-----------|
+| Framework | Astro 4 |
+| Styling | CSS (global stylesheet) |
+| Language | HTML, JavaScript, TypeScript |
+| Container | Docker (multi-stage build) |
+| Server | Nginx (static file serving) |
+| Reverse Proxy | Caddy (SSL via Let's Encrypt) |
 
-## Prerequisites
+---
 
-**Local development:**
-- Node.js (v18+ recommended)
+## Getting started
 
-**Production / Docker:**
-- Docker
-- Docker Compose
+### Prerequisites
 
-## Getting started (local)
+- **Local development:** Node.js v18+
+- **Production:** Docker & Docker Compose
 
-1. Clone the repo
+### Local development
 
-   git clone https://github.com/tof-98/kinetic-portfolio.git
-   cd kinetic-portfolio
+```bash
+git clone https://github.com/tof-98/kinetic-portfolio.git
+cd kinetic-portfolio
+npm install
+npm run dev
+```
 
-2. Install dependencies
+The dev server starts at `http://localhost:4321` with hot reload.
 
-   npm install
+### Build & preview
 
-3. Run the dev server
+```bash
+npm run build      # outputs to dist/
+npm run preview    # preview production build locally
+```
 
-   npm run dev
+---
 
-4. Build for production
+## Docker
 
-   npm run build
+### Start
 
-5. Preview the production build locally
+```bash
+docker-compose up -d --build
+```
 
-   npm run preview
+Site available at `http://localhost:3000`.
 
-## Docker (production)
+### Stop
 
-1. Build and start container
+```bash
+docker-compose down
+```
 
-   docker-compose up -d --build
+### After code changes
 
-2. Site available at localhost:3000
+```bash
+docker-compose up -d --build
+```
 
-3. Stop container
+The multi-stage Dockerfile builds the Astro project with Node, then copies the output into a lightweight Nginx image.
 
-   docker-compose down
-
-After code changes, rebuild:
-
-   docker-compose up -d --build
-
-## Project structure
-
-- public/ — static assets (images, icons, CV)
-- src/components/ — Astro components (Hero, About, Work, Footer, etc.)
-- src/data/ — portfolio data (portfolio.ts)
-- src/layouts/ — page layout
-- src/pages/ — Astro pages
-- src/styles/ — global CSS
-- package.json — scripts and dependencies
-- astro.config.mjs — Astro configuration
-- tsconfig.json — TypeScript configuration
-- Dockerfile — multi-stage build (Node builder → Nginx image)
-- docker-compose.yml — container configuration (port 3000)
-- .dockerignore — build context exclusions
+---
 
 ## Deployment
 
-Production runs as Docker container behind Caddy as reverse proxy.
+The production setup uses Docker + Caddy as a reverse proxy with automatic HTTPS.
 
-1. Start container on server
+**1. Start the container on your server**
 
-   docker-compose up -d --build
+```bash
+docker-compose up -d --build
+```
 
-2. Add entry to Caddyfile
+**2. Add a block to your Caddyfile**
 
-   deine-domain.de {
-       reverse_proxy localhost:3000
-   }
+```
+your-domain.com {
+    reverse_proxy localhost:3000
+}
+```
 
-Caddy handles SSL automatically via Let's Encrypt.
+Caddy handles SSL certificate provisioning automatically via Let's Encrypt.
+
+---
+
+## Project structure
+
+```
+kinetic-portfolio/
+├── public/               # Static assets (images, favicon, CV)
+├── src/
+│   ├── components/       # Astro components (Hero, About, Work, Footer, …)
+│   ├── data/             # Portfolio content (portfolio.ts)
+│   ├── layouts/          # Page layout
+│   ├── pages/            # Routes (index.astro)
+│   └── styles/           # Global CSS
+├── Dockerfile            # Multi-stage build: Node → Nginx
+├── docker-compose.yml    # Container config (port 3000)
+├── .dockerignore         # Build context exclusions
+├── astro.config.mjs
+├── tsconfig.json
+└── package.json
+```
+
+---
 
 ## Contributing
 
-Contributions are welcome — open an issue or send a PR.
+Issues and pull requests are welcome. Please open an issue first to discuss larger changes.
 
 ## Contact
 
-If you'd like to reach me, check the contact section on the site or open an issue here on GitHub.
+Reach out via the contact section on the site, or open an issue on GitHub.
