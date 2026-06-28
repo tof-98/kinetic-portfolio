@@ -18,6 +18,8 @@ pnpm-debug.log*
 
 # macOS
 .DS_Store
+*.heic
+*.HEIC
 
 # editor directories
 .vscode/
@@ -30,3 +32,6 @@ pnpm-debug.log*
 
 # Astro
 .astro/
+
+# Claude Code local settings
+.claude/

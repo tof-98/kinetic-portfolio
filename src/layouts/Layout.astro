@@ -10,15 +10,30 @@ const { title = 'Toufic Hanna — Full-Stack Developer' } = Astro.props;
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/th-ascendant-favicon.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{title}</title>
+  <meta name="description" content="Toufic Hanna — Full-Stack Developer specialising in Java, Spring Boot and React. 2+ years production experience at LITTERA Software & Consulting. Open to remote. ~3 months' notice, available from Sep 2026." />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Toufic Hanna — Full-Stack Developer" />
+  <meta property="og:description" content="Production web apps with Java, Spring Boot & React — engineered to ship, scale, and stay secure. 2+ years live at LITTERA Software & Consulting across Austria & Germany." />
+  <meta property="og:image" content="/profile-picture.JPG" />
+  <meta property="og:url" content="https://toufic-hanna.dev" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Toufic Hanna — Full-Stack Developer" />
+  <meta name="twitter:description" content="Production web apps with Java, Spring Boot & React — engineered to ship, scale, and stay secure." />
+  <meta name="twitter:image" content="/profile-picture.JPG" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <script is:inline>
+    if (localStorage.getItem('kinetic-theme') === 'light')
+      document.documentElement.dataset.theme = 'light';
+  </script>
 </head>
 <body>
+  <a href="#top" class="skip-link">Skip to content</a>
   <slot />
-  <script is:inline src="/image-slot.js"></script>
   <script>
     // Bar scroll + active nav link
     const bar = document.getElementById('bar') as HTMLElement;

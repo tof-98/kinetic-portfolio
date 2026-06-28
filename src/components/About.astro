@@ -39,33 +39,15 @@
           </div>
         </div>
         <div class="studio">
-          <div class="st-head">
-            <span class="st-kicker">A moment in my day</span>
-            <span class="st-count"><b id="stIx">01</b> / <span id="stTot">04</span></span>
+          <div class="st-head"><span class="st-kicker">A moment in my day</span></div>
+          <div class="spot-stage" id="momentStage">
+            <article class="spot-frame"><div class="kb"><img src="/gym.jpeg" alt="Training" width="800" height="600" loading="lazy" style="object-position: 9% top" /></div></article>
+            <article class="spot-frame"><div class="kb"><img src="/church-left-side.jpeg" alt="Sacred Art" width="800" height="600" loading="lazy" style="object-position: 25% bottom;" /></div></article>
+            <article class="spot-frame"><div class="kb"><img src="/me-looking-up.jpeg" alt="Lost in Art" width="800" height="600" loading="lazy" style="object-position: 5% bottom;" /></div></article>
+            <article class="spot-frame"><div class="kb"><img src="/indisches-essen.jpeg" alt="Slow Dinner" width="800" height="600" loading="lazy" style="object-position: 25% bottom;" /></div></article>
+            <div class="spot-cap"><span class="num" id="stIx">01<b> / 04</b></span><div class="ttl"><span id="stTtl">Training</span></div></div>
           </div>
-          <div class="studio-stage" id="momentStage">
-            <article class="ph-card">
-              <image-slot id="kinetic-moment" shape="rect" placeholder="training"></image-slot>
-              <span class="ph-cap">Training</span>
-            </article>
-            <article class="ph-card">
-              <image-slot id="kinetic-moment-2" shape="rect" placeholder="cooking"></image-slot>
-              <span class="ph-cap">Cooking</span>
-            </article>
-            <article class="ph-card">
-              <image-slot id="kinetic-moment-3" shape="rect" placeholder="self-hosted lab"></image-slot>
-              <span class="ph-cap">Self-hosting</span>
-            </article>
-            <article class="ph-card">
-              <image-slot id="kinetic-moment-4" shape="rect" placeholder="outdoors · tirol"></image-slot>
-              <span class="ph-cap">Outdoors</span>
-            </article>
-          </div>
-          <div class="studio-ui">
-            <button class="st-btn" id="stPrev" type="button" aria-label="Previous">‹</button>
-            <div class="st-dots" id="stDots"></div>
-            <button class="st-btn" id="stNext" type="button" aria-label="Next">›</button>
-          </div>
+          <div class="spot-strip" id="momentStrip"></div>
         </div>
       </div>
 
@@ -105,7 +87,7 @@
           <div class="clrow">
             <span class="cl-ghost" aria-hidden="true">GOV</span>
             <span class="cl-tok">GOV</span>
-            <div class="cl-name">AI Literacy &amp; Compliance</div>
+            <div class="cl-name">AI Fundamentals &amp; Compliance</div>
             <span class="cl-org">Mindlane · Feb 2026 <span class="vf">✓</span></span>
           </div>
           <div class="clrow">
@@ -129,8 +111,8 @@
           <span class="chip">CI · Docker</span>
           <span class="chip-div"></span>
           <span class="chip lang"><b>AR</b> Native</span>
-          <span class="chip lang"><b>EN</b> C1</span>
           <span class="chip lang"><b>DE</b> B2–C1</span>
+          <span class="chip lang"><b>EN</b> B2</span>
         </div>
       </div>
 
@@ -153,56 +135,69 @@
   );
   document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
 
-  // Coverflow studio
+  // About — "a moment in my day" Spotlight + Filmstrip
   (function () {
-    const stage = document.getElementById('momentStage');
+    const stage = document.getElementById('momentStage') as HTMLElement;
     if (!stage) return;
-    const cards = [...stage.querySelectorAll<HTMLElement>('.ph-card')];
-    const n = cards.length;
-    const dotsWrap = document.getElementById('stDots') as HTMLElement;
-    const ixEl = document.getElementById('stIx');
-    const totEl = document.getElementById('stTot');
-    let idx = 0;
-    try { const s = +(localStorage.getItem('kinetic-moment-idx') ?? ''); if (!isNaN(s) && s >= 0 && s < n) idx = s; } catch {}
-    if (totEl) totEl.textContent = String(n).padStart(2, '0');
-    cards.forEach((c, i) => {
-      const d = document.createElement('button');
-      d.className = 'st-dot'; d.type = 'button'; d.setAttribute('aria-label', 'Show ' + (i + 1));
-      d.addEventListener('click', () => go(i));
-      dotsWrap.appendChild(d);
-      c.addEventListener('click', () => { if (i !== idx) go(i); });
+    const frames = [...stage.querySelectorAll<HTMLElement>('.spot-frame')];
+    const N = frames.length;
+    const stripEl = document.getElementById('momentStrip') as HTMLElement;
+    const idxEl = document.getElementById('stIx');
+    const ttlEl = document.getElementById('stTtl');
+    const capEl = stage.querySelector<HTMLElement>('.spot-cap');
+    const DUR = 4400;
+    const MOMENTS = [
+      { t: 'Training',        src: '/gym.jpeg' },
+      { t: 'Sacred Art',      src: '/church-left-side.jpeg' },
+      { t: 'Lost in Art',     src: '/me-looking-up.jpeg' },
+      { t: 'SLOW DINNER', src: '/indisches-essen.jpeg' }
+    ];
+    let idx = 0, paused = false, elapsed = 0, lastT = performance.now();
+    try { const s = +(localStorage.getItem('kinetic-moment-idx') ?? ''); if (!isNaN(s) && s >= 0 && s < N) idx = s; } catch {}
+    const strip = MOMENTS.map((mo, i) => {
+      const b = document.createElement('button') as HTMLButtonElement;
+      b.className = 'fs'; b.type = 'button'; b.title = mo.t; b.setAttribute('aria-label', mo.t);
+      b.innerHTML = '<img src="' + mo.src + '" alt="' + mo.t + '" /><span class="fs-prog"></span>';
+      b.addEventListener('click', () => jump(i));
+      stripEl.appendChild(b);
+      return b;
     });
-    const dots = [...dotsWrap.children] as HTMLElement[];
-    function render() {
-      cards.forEach((c, i) => {
-        let rel = i - idx; if (rel > n / 2) rel -= n; if (rel < -n / 2) rel += n;
+    frames.forEach((f, i) => { f.style.cursor = 'pointer'; f.addEventListener('click', () => jump(i)); });
+    function jump(i: number) { idx = ((i % N) + N) % N; elapsed = 0; strip.forEach(b => (b.querySelector('.fs-prog') as HTMLElement).style.width = '0%'); paint(); }
+    function paint() {
+      frames.forEach((f, i) => {
+        let rel = i - idx; if (rel > N / 2) rel -= N; if (rel < -N / 2) rel += N;
         const a = Math.abs(rel), sgn = Math.sign(rel);
-        const x = sgn * (a === 1 ? 62 : a >= 2 ? 104 : 0);
-        const z = a === 0 ? 0 : a === 1 ? -130 : -280;
-        const ry = -sgn * (a === 1 ? 22 : a >= 2 ? 27 : 0);
-        const sc = a === 0 ? 1 : a === 1 ? 0.82 : 0.66;
-        c.style.transform = `translate(-50%,-50%) translateX(${x}%) translateZ(${z}px) rotateY(${ry}deg) scale(${sc})`;
-        c.style.opacity = String(a === 0 ? 1 : a === 1 ? 0.72 : a >= 2 ? 0.34 : 0);
-        c.style.zIndex = String(20 - a);
-        c.style.filter = a === 0 ? 'none' : 'grayscale(1) brightness(.55)';
-        c.style.pointerEvents = a > 2 ? 'none' : 'auto';
-        c.classList.toggle('is-active', a === 0);
+        let x: number, z: number, ry: number, sc: number, op: number, fl: string, zi: number;
+        if (a === 0) { x = 0; z = 0; ry = 0; sc = 1; op = 1; fl = 'none'; zi = 4; }
+        else if (a === 1) { x = sgn * 42; z = -205; ry = -sgn * 26; sc = .86; op = .58; fl = 'grayscale(.8) brightness(.55)'; zi = 3; }
+        else { x = sgn * 58; z = -360; ry = -sgn * 30; sc = .74; op = .14; fl = 'grayscale(1) brightness(.35)'; zi = 2; }
+        f.style.transform = `translate(-50%,-50%) translateX(${x}%) translateZ(${z}px) rotateY(${ry}deg) scale(${sc})`;
+        f.style.opacity = String(op); f.style.filter = fl; f.style.zIndex = String(zi);
+        f.style.pointerEvents = a > 1 ? 'none' : 'auto';
+        f.classList.toggle('on', a === 0);
       });
-      dots.forEach((d, i) => (d.dataset.on = i === idx ? '1' : '0'));
-      if (ixEl) ixEl.textContent = String(idx + 1).padStart(2, '0');
+      strip.forEach((b, i) => b.classList.toggle('on', i === idx));
+      if (idxEl) idxEl.innerHTML = '0' + (idx + 1) + '<b> / 0' + N + '</b>';
+      if (capEl) { capEl.classList.remove('lit'); void capEl.offsetWidth; requestAnimationFrame(() => capEl!.classList.add('lit')); }
+      if (ttlEl) ttlEl.textContent = MOMENTS[idx].t;
       try { localStorage.setItem('kinetic-moment-idx', String(idx)); } catch {}
     }
-    function go(i: number) { idx = ((i % n) + n) % n; render(); }
-    (document.getElementById('stPrev') as HTMLElement).addEventListener('click', () => go(idx - 1));
-    (document.getElementById('stNext') as HTMLElement).addEventListener('click', () => go(idx + 1));
+    function tick(now: number) {
+      const dt = now - lastT; lastT = now;
+      if (!paused) {
+        elapsed += dt;
+        const fr = Math.min(elapsed / DUR, 1);
+        const fs = strip[idx]; if (fs) (fs.querySelector('.fs-prog') as HTMLElement).style.width = (fr * 100) + '%';
+        if (elapsed >= DUR) { elapsed = 0; strip.forEach(b => (b.querySelector('.fs-prog') as HTMLElement).style.width = '0%'); idx = (idx + 1) % N; paint(); }
+      }
+      requestAnimationFrame(tick);
+    }
     let hov = false;
-    stage.addEventListener('mouseenter', () => hov = true);
-    stage.addEventListener('mouseleave', () => hov = false);
-    addEventListener('keydown', e => { if (!hov) return; if (e.key === 'ArrowLeft') go(idx - 1); else if (e.key === 'ArrowRight') go(idx + 1); });
-    let paused = false;
-    stage.addEventListener('mouseenter', () => paused = true);
-    stage.addEventListener('mouseleave', () => paused = false);
-    setInterval(() => { if (!paused) go(idx + 1); }, 4400);
-    render();
+    stage.addEventListener('mouseenter', () => { paused = true; hov = true; });
+    stage.addEventListener('mouseleave', () => { paused = false; hov = false; });
+    addEventListener('keydown', e => { if (!hov) return; if (e.key === 'ArrowLeft') jump(idx - 1); else if (e.key === 'ArrowRight') jump(idx + 1); });
+    paint();
+    requestAnimationFrame(tick);
   })();
 </script>

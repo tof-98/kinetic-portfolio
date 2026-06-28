@@ -50,7 +50,11 @@
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      form.innerHTML = '<span class="vf-sent">Message ready <span class="ac">✦</span> — mockup; wire to an email service to send.</span>';
+      const input = form.querySelector('input') as HTMLInputElement;
+      const msg = input ? input.value.trim() : '';
+      if (!msg) return;
+      const mailto = `mailto:toufichanna00@gmail.com?subject=${encodeURIComponent('Portfolio Contact')}&body=${encodeURIComponent(msg)}`;
+      window.location.href = mailto;
     });
     back.addEventListener('transitionend', e => {
       if (e.target === back && !back.classList.contains('open')) form.innerHTML = formHTML;

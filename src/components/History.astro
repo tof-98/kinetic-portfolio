@@ -11,7 +11,7 @@
     <div class="gitlog rv">
       <div class="pbar">
         <span class="dot"></span>
-        <span class="cmd">$ <b>git log</b> --graph --decorate --oneline</span>
+        <span class="cmd">$ <b>git log</b> — career timeline · 2016 → now</span>
         <span class="live"><i></i>HEAD · main</span>
       </div>
       <div class="body">
@@ -23,7 +23,7 @@
               <span class="ref headref"><span class="pt">HEAD →</span> main</span>
               <span class="when">2024 — NOW</span>
             </div>
-            <h3>Application Programmer<span class="caret"></span></h3>
+            <h3>Full-Stack Developer<span class="caret"></span></h3>
             <div class="co">LITTERA Software &amp; Consulting · Hall in Tirol, AT</div>
             <ul class="msg">
               <li>Develop and optimise multi-layer web applications — performance, stability, maintainability.</li>
@@ -57,7 +57,7 @@
               <span class="when">2016 — 2022</span>
             </div>
             <h3>B.Sc. Computer Science</h3>
-            <div class="co">University of Lattakia · Syria · EQF 6</div>
+            <div class="co">Tishreen University · Syria · EQF 6</div>
             <ul class="msg diff">
               <li>Software Engineering &amp; Information Systems.</li>
               <li>Focus on database design, network administration, and software development &amp; analysis.</li>
@@ -70,7 +70,6 @@
 </section>
 
 <script>
-  // Timeline pulse animation
   (function () {
     const body = document.querySelector<HTMLElement>('#history .gitlog .body');
     if (!body) return;
@@ -81,43 +80,82 @@
     const pulse = document.createElement('span'); pulse.className = 'tl-pulse';
     body.append(trail, pulse);
 
-    let topY = 0, botY = 0, centers: { el: HTMLElement; y: number; x: number }[] = [];
+    const SEG_TRAVEL = 2150, PAUSE_MS = 300, HOLD_MS = 1100;
+
+    type C = { el: HTMLElement; y: number; x: number };
+    type Phase =
+      | { type: 'pause';  node: C; y: number; dur: number }
+      | { type: 'travel'; fromY: number; toY: number; dur: number }
+      | { type: 'hold';   dur: number };
+
+    let centers: C[] = [];
+    let phases: Phase[] = [];
+    let totalDur = 0;
+
     function measure() {
       const b = body!.getBoundingClientRect();
-      centers = nodes.map(n => { const r = n.getBoundingClientRect(); return { el: n, y: r.top - b.top + r.height / 2, x: r.left - b.left + r.width / 2 }; });
-      topY = centers[0].y;
-      botY = centers[centers.length - 1].y;
-      const x = centers[0].x;
-      pulse.style.left = x + 'px'; trail.style.left = x + 'px';
+      centers = nodes.map(n => {
+        const r = n.getBoundingClientRect();
+        return { el: n, y: r.top - b.top + r.height / 2, x: r.left - b.left + r.width / 2 };
+      });
+      pulse.style.left = centers[0].x + 'px';
+      trail.style.left = centers[0].x + 'px';
+
+      const rev = [...centers].reverse(); // bottom node → top node
+      const ps: Phase[] = [];
+      for (let i = 0; i < rev.length; i++) {
+        ps.push({ type: 'pause', node: rev[i], y: rev[i].y, dur: PAUSE_MS });
+        if (i < rev.length - 1)
+          ps.push({ type: 'travel', fromY: rev[i].y, toY: rev[i + 1].y, dur: SEG_TRAVEL });
+      }
+      ps.push({ type: 'hold', dur: HOLD_MS });
+      phases = ps;
+      totalDur = ps.reduce((s, p) => s + p.dur, 0);
     }
+
     const A = () => { const n = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--A')); return n > 0 ? n : 1; };
     function reset() { nodes.forEach(n => n.classList.remove('lit')); }
-    function lightTo(y: number) { centers.forEach(c => { if (y <= c.y + 0.5) c.el.classList.add('lit'); }); }
 
-    const TRAVEL = 5200, HOLD = 1100;
-    let raf: number | null = null, t0: number | null = null, lastE = 0;
-    function loop(t: number) {
-      const a = A(), dur = TRAVEL / a, total = dur + HOLD / a;
-      if (t0 == null) { t0 = t; measure(); }
-      const e = (t - t0) % total;
-      if (e < lastE) reset();
-      lastE = e;
-      if (e < dur) {
-        const p = e / dur;
-        const y = botY + (topY - botY) * p;
-        pulse.style.top = y + 'px'; trail.style.top = y + 'px';
-        const o = p < 0.05 ? p / 0.05 : (p > 0.97 ? (1 - p) / 0.03 : 1);
-        pulse.style.opacity = String(o); trail.style.opacity = String(o * 0.85);
-        lightTo(y);
-      } else {
-        pulse.style.opacity = '0'; trail.style.opacity = '0';
-        centers.forEach(c => c.el.classList.add('lit'));
+    let raf: number | null = null, t0: number | null = null, prevE = Infinity;
+
+    function loop(ts: number) {
+      if (t0 == null) { t0 = ts; measure(); }
+      const a = A();
+      const scaled = totalDur / a;
+      const e = (ts - t0) % scaled;
+      if (e < prevE) reset();
+      prevE = e;
+
+      let acc = 0;
+      for (const ph of phases) {
+        const dur = ph.dur / a;
+        if (e < acc + dur) {
+          const p = (e - acc) / dur;
+          if (ph.type === 'pause') {
+            ph.node.el.classList.add('lit');
+            pulse.style.top = ph.y + 'px'; trail.style.top = ph.y + 'px';
+            pulse.style.opacity = '1'; trail.style.opacity = '0.85';
+          } else if (ph.type === 'travel') {
+            const pe = 0.5 - 0.5 * Math.cos(Math.PI * p);
+            const y = ph.fromY + (ph.toY - ph.fromY) * pe;
+            pulse.style.top = y + 'px'; trail.style.top = y + 'px';
+            pulse.style.opacity = '1'; trail.style.opacity = '0.85';
+          } else {
+            centers.forEach(c => c.el.classList.add('lit'));
+            const fade = p > 0.8 ? 1 - (p - 0.8) / 0.2 : 1;
+            pulse.style.opacity = String(fade); trail.style.opacity = String(fade * 0.85);
+          }
+          break;
+        }
+        acc += dur;
       }
+
       raf = requestAnimationFrame(loop);
     }
+
     addEventListener('resize', () => { if (raf) measure(); }, { passive: true });
     const vio = new IntersectionObserver(es => es.forEach(e => {
-      if (e.isIntersecting) { if (!raf) { t0 = null; lastE = 0; raf = requestAnimationFrame(loop); } }
+      if (e.isIntersecting) { if (!raf) { t0 = null; prevE = Infinity; raf = requestAnimationFrame(loop); } }
       else if (raf) { cancelAnimationFrame(raf); raf = null; }
     }), { threshold: 0.12 });
     vio.observe(document.getElementById('history')!);

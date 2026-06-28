@@ -63,18 +63,18 @@ export interface SkillDomain {
 export const SKILLS: SkillDomain[] = [
   {
     name: 'Backend', note: 'daily driver',
-    items: [['Java', 3], ['Spring Boot', 3], ['REST APIs', 3], ['PHP / Symfony', 2], ['Drupal', 2]],
+    items: [['Java', 3], ['Spring Boot', 3], ['REST APIs', 3], ['PHP / Symfony', 2], ['Spring Security', 2], ['Drupal', 2], ['Slim Framework', 1]],
   },
   {
     name: 'Frontend', note: 'ships UI solo',
-    items: [['JavaScript', 3], ['React', 2], ['TypeScript', 2]],
+    items: [['JavaScript', 3], ['React', 2], ['TypeScript', 2], ['jQuery', 2]],
   },
   {
     name: 'Data / DevOps', ghost: 'DevOps', note: 'production-grade',
-    items: [['PostgreSQL', 3], ['Git', 3], ['Linux', 2], ['Solr', 2]],
+    items: [['PostgreSQL', 3], ['Git', 3], ['Docker', 3], ['Linux', 2], ['Solr', 2]],
   },
   {
     name: 'Security / AI', ghost: 'Security', note: 'security-first',
-    items: [['Cyber Security', 2], ['AI Agentic', 2], ['Python', 1]],
+    items: [['Cyber Security', 2], ['JWT', 2], ['AI Agentic', 2], ['Python', 1]],
   },
 ];

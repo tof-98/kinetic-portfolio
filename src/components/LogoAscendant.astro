@@ -1,0 +1,42 @@
+---
+/**
+ * TH "Ascendant" monogram for Toufic Hanna.
+ * Ink strokes use currentColor (inherit text color); the gold raised bar is the accent.
+ * Usage:
+ *   <LogoAscendant />                 // 40px tall, ivory + gold
+ *   <LogoAscendant size={28} />       // smaller (nav)
+ *   <LogoAscendant size={64} accent="#eab600" />
+ */
+interface Props {
+  size?: number;          // rendered HEIGHT in px
+  accent?: string;        // gold bar color
+  class?: string;
+  title?: string;
+}
+const {
+  size = 40,
+  accent = "#eab600",
+  class: className = "",
+  title = "Toufic Hanna",
+} = Astro.props;
+
+const ratio = 128 / 130;          // viewBox w/h
+const width = Math.round(size * ratio);
+---
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 128 130"
+  width={width}
+  height={size}
+  fill="none"
+  role="img"
+  aria-label={title}
+  class={className}
+>
+  <g stroke="currentColor" stroke-width="9" stroke-linecap="butt">
+    <line x1="56" y1="10" x2="56" y2="120" />
+    <line x1="112" y1="10" x2="112" y2="120" />
+    <line x1="16" y1="20" x2="96" y2="20" />
+  </g>
+  <line x1="56" y1="46" x2="112" y2="46" stroke={accent} stroke-width="9" stroke-linecap="butt" />
+</svg>
