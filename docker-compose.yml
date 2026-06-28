@@ -1,0 +1,7 @@
+services:
+  portfolio:
+    build: .
+    container_name: kinetic-portfolio
+    ports:
+      - "3000:80"
+    restart: unless-stopped

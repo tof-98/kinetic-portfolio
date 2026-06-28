@@ -336,6 +336,10 @@ footer {
   .nav-cv {
     display: none;
   }
+  .bar {
+    display: flex;
+    justify-content: space-between;
+  }
 }
 /* mobile nav */
 .burger {
@@ -610,7 +614,7 @@ h1.mega .l:nth-child(3) span {
 .hero-sub {
   display: flex;
   flex-wrap: wrap;
-  gap: 128px;
+  gap: 170px;
   justify-content: space-between;
   align-items: flex-end;
   margin-top: 36px;
@@ -1308,6 +1312,12 @@ h2 .ac.gleam {
 .certled .cl-org .vf {
   color: var(--accent);
   font-size: 12px;
+}
+.certled a.clrow {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  display: grid;
 }
 /* ghost token letterform fades in behind on hover */
 .certled .cl-ghost {
@@ -2681,6 +2691,11 @@ footer .wrap {
 }
 footer .ac {
   color: var(--accent);
+}
+
+.dot-centered {
+  position: relative;
+  top: -2px;
 }
 
 /* ===== contact sheet ===== */

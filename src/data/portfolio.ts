@@ -63,7 +63,7 @@ export interface SkillDomain {
 export const SKILLS: SkillDomain[] = [
   {
     name: 'Backend', note: 'daily driver',
-    items: [['Java', 3], ['Spring Boot', 3], ['REST APIs', 3], ['PHP / Symfony', 2], ['Spring Security', 2], ['Drupal', 2], ['Slim Framework', 1]],
+    items: [['Java', 3], ['Spring Boot', 3], ['REST APIs', 3], ['PHP / Symfony', 2], ['Spring Security', 2], ['Drupal', 2], ['Slim Framework', 2]],
   },
   {
     name: 'Frontend', note: 'ships UI solo',
