@@ -3,8 +3,9 @@ services:
     build: .
     container_name: kinetic-portfolio
     restart: unless-stopped
-    networks:
-      - web
+    web:
+      aliases:
+        - kinetic-portfolio
     environment:
       - RESEND_API_KEY=${RESEND_API_KEY}
       - CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL}
