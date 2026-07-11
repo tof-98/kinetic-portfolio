@@ -1,0 +1,373 @@
+/* ===== experience · git log ===== */
+@keyframes blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes chargeDown {
+  0% {
+    top: 30px;
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+/* timeline pulse — rises from the oldest commit (B.Sc.) up to the live HEAD */
+@keyframes riseDot {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  9% {
+    opacity: 1;
+  }
+  91% {
+    opacity: 1;
+  }
+  100% {
+    top: 22px;
+    opacity: 0;
+  }
+}
+@keyframes riseTrail {
+  0% {
+    top: 100%;
+    opacity: 0;
+  }
+  9% {
+    opacity: 0.55;
+  }
+  91% {
+    opacity: 0.55;
+  }
+  100% {
+    top: 22px;
+    opacity: 0;
+  }
+}
+@property --bang {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes bspin {
+  to {
+    --bang: 360deg;
+  }
+}
+@keyframes bframe {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+.gitlog {
+  position: relative;
+  background: var(--panel);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.02) inset,
+    0 34px 80px -34px rgba(0, 0, 0, 0.82),
+    0 8px 28px -18px rgba(0, 0, 0, 0.7);
+}
+/* structural ring — always-on frame */
+.gitlog::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  padding: 1px;
+  background: var(--line-2);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+/* living amber frame — faint all around, soft highlight drifting the whole perimeter, gently breathing */
+.gitlog::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--bang),
+    color-mix(in srgb, var(--accent) 15%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 15%, transparent) 48%,
+    color-mix(in srgb, var(--accent) 52%, transparent) 72%,
+    var(--accent) 82%,
+    color-mix(in srgb, var(--accent) 52%, transparent) 92%,
+    color-mix(in srgb, var(--accent) 15%, transparent) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: bspin calc(24s / var(--A)) linear infinite;
+}
+.gitlog .pbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.gitlog .pbar .dot {
+  width: 9px;
+  height: 9px;
+  background: var(--accent);
+}
+.gitlog .pbar .cmd {
+  color: var(--ink-3);
+}
+.gitlog .pbar .cmd b {
+  color: var(--ink-2);
+  font-weight: 500;
+}
+.gitlog .pbar .live {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+.gitlog .pbar .live i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: led calc(2.2s / var(--A)) infinite;
+  font-style: normal;
+}
+.gitlog .body {
+  padding: 8px 0 12px;
+  position: relative;
+}
+/* timeline pulse — JS-driven, climbs from the oldest node up to the live HEAD */
+.tl-trail {
+  position: absolute;
+  width: 2px;
+  height: 94px;
+  border-radius: 2px;
+  transform: translate(-50%, 0);
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  z-index: 4;
+  pointer-events: none;
+  opacity: 0;
+  will-change: top, opacity;
+}
+.tl-pulse {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--accent);
+  transform: translate(-50%, -50%);
+  box-shadow:
+    0 0 12px var(--accent),
+    0 0 26px color-mix(in srgb, var(--accent) 70%, transparent);
+  z-index: 5;
+  pointer-events: none;
+  opacity: 0;
+  will-change: top, opacity;
+}
+.commit {
+  display: grid;
+  grid-template-columns: 54px 1fr;
+  align-items: stretch;
+}
+.commit.head {
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent) 6%, transparent),
+    transparent 58%
+  );
+}
+.commit .rail {
+  position: relative;
+}
+.commit .rail::before {
+  content: '';
+  position: absolute;
+  left: 26px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--line-2);
+}
+.commit:first-child .rail::before {
+  top: 30px;
+}
+.commit:last-child .rail::before {
+  bottom: auto;
+  height: 30px;
+}
+.commit .node {
+  position: absolute;
+  left: 19px;
+  top: 24px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--ink-3);
+  z-index: 2;
+  transition:
+    border-color 0.5s ease,
+    background 0.5s ease,
+    box-shadow 0.6s ease;
+}
+/* “level reached” — node lights up as the pulse passes it */
+.commit .node.lit {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 22%, var(--bg));
+  box-shadow:
+    0 0 0 4px var(--accent-dim),
+    0 0 16px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.commit.merge .node.lit {
+  box-shadow:
+    0 0 0 3px var(--accent-dim),
+    0 0 16px color-mix(in srgb, var(--accent) 55%, transparent);
+}
+.commit.head .node {
+  border-color: var(--accent);
+  background: var(--accent);
+  animation: led calc(2.2s / var(--A)) infinite;
+}
+.commit.merge .node {
+  border-radius: 2px;
+  transform: rotate(45deg);
+  border-color: var(--accent);
+}
+
+.commit .cm {
+  padding: 20px 18px 26px 4px;
+}
+.commit:first-child .cm {
+  padding-top: 24px;
+}
+.cm-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  font-family: var(--mono);
+  font-size: 12px;
+}
+.gitlog .hash {
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 2px 8px;
+  letter-spacing: 0.04em;
+}
+.gitlog .ref {
+  border: 1px solid var(--line-2);
+  color: var(--ink-2);
+  padding: 2px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.gitlog .ref.headref {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.gitlog .ref .pt {
+  color: var(--ink-3);
+}
+.gitlog .ref.headref .pt {
+  color: var(--accent);
+}
+.gitlog .when {
+  font-family: var(--mono);
+  color: var(--ink-3);
+  margin-left: auto;
+}
+.cm h3 {
+  font-weight: 700;
+  font-size: clamp(20px, 2.6vw, 30px);
+  margin-top: 14px;
+  letter-spacing: -0.01em;
+  line-height: 1.04;
+}
+.cm h3 .caret {
+  display: inline-block;
+  width: 10px;
+  height: 1.05em;
+  background: var(--accent);
+  margin-left: 6px;
+  vertical-align: -2px;
+  animation: blink calc(1.05s / var(--A)) steps(1) infinite;
+}
+.cm .co {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--ink-3);
+  margin-top: 7px;
+}
+.cm .msg {
+  font-family: var(--mono);
+  color: var(--ink-2);
+  font-size: 13px;
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  max-width: 74ch;
+}
+.cm .msg li {
+  position: relative;
+  padding-left: 20px;
+  list-style: none;
+  text-wrap: pretty;
+}
+.cm .msg li::before {
+  content: '+';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 600;
+}
+.cm .msg.diff li::before {
+  content: '›';
+  color: var(--ink-3);
+}
+@media (max-width: 560px) {
+  .commit {
+    grid-template-columns: 40px 1fr;
+  }
+  .commit .rail::before {
+    left: 19px;
+  }
+  .commit .node {
+    left: 12px;
+  }
+  .gitlog .when {
+    margin-left: 0;
+    width: 100%;
+  }
+}

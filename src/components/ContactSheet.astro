@@ -1,63 +1,105 @@
 ---
+import { SITE } from '../data/site';
 ---
+
 <div class="sheet-back" id="helloSheet" aria-hidden="true">
-  <div class="sheet sheet-f" role="dialog" aria-modal="true" aria-label="Get in touch" style="width:524px;height:557px">
-    <div class="vf-top">
-      <span class="kk">// Get in touch — 05</span>
-      <span class="now"><span data-clock>—:—</span> · Hall in Tirol</span>
-      <button class="sheet-x" type="button" data-close aria-label="Close">✕</button>
-    </div>
-    <h3 class="vf-h">Let's <span class="u">talk</span>.</h3>
-    <div class="vf-list">
-      <a href="mailto:toufichanna00@gmail.com">
-        <span class="k">Email</span><span class="v">Direct line</span>
-        <span class="m">toufichanna00@gmail.com</span><span class="ar">↗</span>
-      </a>
-      <a href="https://www.linkedin.com/in/toufic-hanna" target="_blank" rel="noopener">
-        <span class="k">LinkedIn</span><span class="v">Let's connect</span>
-        <span class="m">/in/toufic-hanna</span><span class="ar">↗</span>
-      </a>
-      <a href="https://github.com/tof-98" target="_blank" rel="noopener">
-        <span class="k">GitHub</span><span class="v">See the code</span>
-        <span class="m">/tof-98</span><span class="ar">↗</span>
-      </a>
-    </div>
-    <form class="vf-foot" id="helloForm" style="margin:48px 0 20px">
-      <input type="text" placeholder="Or write a message…" aria-label="Message" required />
-      <button type="submit">Send <span>↗</span></button>
+  <div class="card" role="dialog" aria-modal="true" aria-label="Get in touch">
+    <form class="cf-form" id="helloForm" novalidate>
+      <input
+        type="text"
+        name="_honeypot"
+        tabindex="-1"
+        autocomplete="off"
+        aria-hidden="true"
+        style="position:absolute;opacity:0;height:0;width:0;pointer-events:none"
+      />
+
+      <aside class="cf-rail">
+        <div class="cf-avatar" aria-hidden="true">T</div>
+        <div class="cf-id">
+          <span class="cf-name">{SITE.name}</span>
+          <span class="cf-role">Developer</span>
+        </div>
+
+        <div class="cf-status">
+          <span class="cf-dot" aria-hidden="true"></span>
+          <span class="cf-status-txt">Replies within 24h</span>
+          <span class="cf-clock"><b data-clock>—:—</b> · Hall in Tirol</span>
+        </div>
+
+        <div class="cf-social">
+          <a href={SITE.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a href={SITE.github} target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+      </aside>
+
+      <div class="cf-main">
+        <header class="cf-head">
+          <div>
+            <h3 class="a-h">
+              Let's talk <span class="dot">.</span>
+            </h3>
+            <span class="cf-text"
+              >Whatever's on your mind - I'd love to hear it</span
+            >
+          </div>
+          <button class="cf-x" type="button" data-close aria-label="Close">
+            <svg viewBox="0 0 12 12" width="10" height="10" aria-hidden="true">
+              <path d="M1 1l10 10M11 1L1 11"></path>
+            </svg>
+          </button>
+        </header>
+
+        <div class="cf-body">
+          <div class="a-row2">
+            <div class="uf uf-float">
+              <input
+                id="cName"
+                name="name"
+                type="text"
+                placeholder=" "
+                required
+              />
+              <label for="cName">Name</label>
+            </div>
+            <div class="uf uf-float">
+              <input
+                id="cEmail"
+                name="email"
+                type="email"
+                placeholder=" "
+                required
+              />
+              <label for="cEmail">Email</label>
+            </div>
+          </div>
+          <div class="uf">
+            <label for="cMsg">Message</label>
+            <textarea
+              id="cMsg"
+              name="message"
+              rows="1"
+              placeholder="A project, an idea, or just a hello…"
+              required></textarea>
+          </div>
+          <div class="a-foot">
+            <button class="send" id="sendBtn" type="submit"
+              >Send message <span class="ar">↗</span></button
+            >
+          </div>
+          <p
+            id="helloFeedback"
+            aria-live="polite"
+            class="cf-sent"
+            style="display:none"
+          >
+          </p>
+        </div>
+      </div>
     </form>
   </div>
 </div>
 
 <script>
-  (function () {
-    const back = document.getElementById('helloSheet') as HTMLElement;
-    if (!back) return;
-    const form = document.getElementById('helloForm') as HTMLFormElement;
-    const formHTML = form.innerHTML;
-
-    const open = () => { back.classList.add('open'); back.setAttribute('aria-hidden', 'false'); document.body.style.overflow = 'hidden'; };
-    const close = () => { back.classList.remove('open'); back.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; };
-
-    document.querySelectorAll('[data-hello]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); open(); }));
-    back.addEventListener('click', e => { if (e.target === back) close(); });
-    back.querySelectorAll('[data-close]').forEach(x => x.addEventListener('click', close));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && back.classList.contains('open')) close(); });
-
-    const cfmt = () => new Intl.DateTimeFormat('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Vienna' }).format(new Date());
-    const ctick = () => back.querySelectorAll('[data-clock]').forEach(el => (el.textContent = cfmt()));
-    ctick(); setInterval(ctick, 1000);
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      const input = form.querySelector('input') as HTMLInputElement;
-      const msg = input ? input.value.trim() : '';
-      if (!msg) return;
-      const mailto = `mailto:toufichanna00@gmail.com?subject=${encodeURIComponent('Portfolio Contact')}&body=${encodeURIComponent(msg)}`;
-      window.location.href = mailto;
-    });
-    back.addEventListener('transitionend', e => {
-      if (e.target === back && !back.classList.contains('open')) form.innerHTML = formHTML;
-    });
-  })();
+  import '../scripts/contact-sheet';
 </script>

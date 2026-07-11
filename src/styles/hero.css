@@ -1,0 +1,209 @@
+/* ===== hero ===== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(16px, 3vh, 48px);
+  padding-top: 96px;
+  padding-bottom: 0;
+}
+.eye {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.eye .b {
+  color: var(--accent);
+}
+h1.mega {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.84;
+  text-transform: uppercase;
+  font-size: calc(var(--hero-mult) * clamp(64px, 15.2vw, 238px));
+  width: fit-content;
+  margin-left: max(var(--pad), calc((100vw - var(--maxw)) / 2 + var(--pad)));
+}
+/* below ~345px the 64px floor makes "DEVELOPER" overflow and wrap */
+@media (max-width: 344px) {
+  h1.mega {
+    font-size: calc(var(--hero-mult) * 17.5vw);
+  }
+}
+h1.mega .l {
+  display: block;
+  transform-origin: bottom left;
+  overflow: hidden;
+}
+h1.mega .l span {
+  display: block;
+  transform: translateY(105%);
+  animation: rise 1s cubic-bezier(0.2, 0.85, 0.2, 1) forwards;
+}
+h1.mega .l:nth-child(2) span {
+  animation-delay: 0.07s;
+}
+h1.mega .l:nth-child(3) span {
+  animation: rise 1s cubic-bezier(0.2, 0.85, 0.2, 1) forwards;
+  animation-delay: 0.14s;
+  -webkit-text-stroke: 1.4px color-mix(in srgb, var(--ink-3) 85%, transparent);
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+[data-theme='light'] h1.mega .l:nth-child(3) span {
+  -webkit-text-stroke: 0;
+  -webkit-text-fill-color: currentColor;
+  color: inherit;
+}
+h1.mega .l:nth-child(3) span .dch {
+  display: inline-block;
+  transform: none;
+  color: inherit;
+  -webkit-text-stroke: inherit;
+  animation: letterCascade 6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: calc(1.3s + var(--i, 0) * 0.11s);
+}
+@keyframes rise {
+  to {
+    transform: none;
+  }
+}
+@keyframes letterCascade {
+  0%,
+  84%,
+  100% {
+    transform: translateY(0);
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  92% {
+    transform: translateY(-0.05em);
+    filter: drop-shadow(0 0 3px color-mix(in srgb, var(--accent) 85%, #fff6d4))
+      drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 55%, transparent));
+  }
+}
+.hero-sub {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  gap: 138px;
+}
+.hero-sub p {
+  max-width: 47ch;
+  color: var(--ink-2);
+  font-size: 16px;
+  line-height: 1.65;
+  text-wrap: pretty;
+}
+.hero-sub p b {
+  color: var(--ink);
+  font-weight: 600;
+}
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+@media (max-width: 960px) {
+  .hero-sub {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+  }
+}
+.btn {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 12px 20px;
+  border: 1px solid var(--line-2);
+  cursor: pointer;
+  color: var(--ink);
+  background: transparent;
+  transition: 0.22s;
+}
+.btn .ar {
+  transition: transform 0.25s;
+}
+.btn:hover .ar {
+  transform: translate(3px, -3px);
+}
+.btn-solid {
+  background: var(--accent);
+  color: #000;
+  border: none;
+  border-radius: 2px;
+  font-weight: 600;
+  padding: 12px 20px;
+  gap: 11px;
+  box-shadow: 0 10px 15px -12px var(--accent);
+  transition:
+    filter 0.2s,
+    box-shadow 0.3s,
+    transform 0.2s;
+}
+.btn-solid:hover {
+  filter: brightness(1.06);
+  box-shadow: 0 16px 20px -12px var(--accent);
+  transform: translateY(-1px);
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translateY(-2px);
+}
+
+/* ticker */
+.ticker {
+  border-block: 1px solid var(--line);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent,
+    #000 6%,
+    #000 94%,
+    transparent
+  );
+}
+.ticker .track {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: roll calc(26s / var(--A)) linear infinite;
+  padding-block: 16px;
+}
+.ticker .track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+.ticker .track i {
+  color: var(--accent);
+  font-style: normal;
+  margin-inline: 18px;
+}
+@keyframes roll {
+  to {
+    transform: translateX(-50%);
+  }
+}

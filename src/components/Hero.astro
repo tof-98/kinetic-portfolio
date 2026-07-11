@@ -1,12 +1,14 @@
 ---
 import { TICK } from '../data/portfolio';
-const seg = TICK.map(t => `${t}<i>✦</i>`).join('');
+import { SITE } from '../data/site';
+const seg = TICK.map((t) => `${t}<i>✦</i>`).join('');
 ---
+
 <header class="hero">
   <div class="wrap">
     <div class="eye">
       <span class="b dot-centered">●</span>
-      <span>Toufic Hanna</span>
+      <span>{SITE.name}</span>
       <span>·</span>
       <span>Hall in Tirol, AT</span>
       <span>·</span>
@@ -16,21 +18,35 @@ const seg = TICK.map(t => `${t}<i>✦</i>`).join('');
   <h1 class="mega">
     <span class="l"><span>Full-</span></span>
     <span class="l"><span>Stack</span></span>
-    <span class="l"><span>Developer</span></span>
+    <span class="l"
+      ><span class="word" aria-label="Developer"
+        >{
+          [...'Developer'].map((ch, i) => (
+            <span class="dch" style={`--i:${i}`} aria-hidden="true">
+              {ch}
+            </span>
+          ))
+        }</span
+      ></span
+    >
   </h1>
   <div class="wrap">
     <div class="hero-sub">
       <p>
-        Production web apps with <b>Java, Spring &amp; React</b> — engineered to ship, scale, and stay secure.
-        Currently shipping full-stack at <b>LITTERA Software &amp; Consulting</b>.
+        Production web apps with <b>Java, Spring &amp; React</b> — engineered to ship,
+        scale, and stay secure. Currently shipping full-stack at <b
+          >LITTERA Software &amp; Consulting</b
+        >.
       </p>
       <div class="cta-row">
-        <a class="btn btn-solid" href="#work">View work <span class="ar">↗</span></a>
+        <a class="btn btn-solid" href="#work"
+          >View work <span class="ar">↗</span></a
+        >
         <a class="btn btn-ghost" href="#contact">Get in touch</a>
       </div>
     </div>
   </div>
   <div class="ticker">
-    <div class="track" set:html={`<span>${seg}</span><span>${seg}</span>`}></div>
+    <div class="track" set:html={`<span>${seg}</span><span>${seg}</span>`} />
   </div>
 </header>

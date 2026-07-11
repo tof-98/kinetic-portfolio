@@ -1,0 +1,89 @@
+/* ===== section frame ===== */
+section {
+  padding-block: clamp(64px, 10vh, 132px);
+  border-top: 1px solid var(--line);
+}
+.shead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: clamp(34px, 5vh, 56px);
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+}
+.shead .num {
+  color: var(--accent);
+}
+.shead .nm {
+  color: var(--ink);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+.shead .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.shead .meta {
+  color: var(--ink-3);
+}
+h2 {
+  font-weight: 700;
+  font-size: clamp(32px, 6vw, 72px);
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+h2 .ac {
+  color: var(--accent);
+}
+h2 .ac.gleam {
+  position: relative;
+  display: inline-block;
+  background-image: linear-gradient(
+    135deg,
+    var(--accent) 0%,
+    var(--accent) 47%,
+    #fff8dc 48.5%,
+    #fffdf2 50%,
+    #fff8dc 51.5%,
+    var(--accent) 53%,
+    var(--accent) 100%
+  );
+  background-size: 700% 100%;
+  background-position: 68% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: greatGleam 3s linear infinite;
+  will-change: background-position;
+}
+@keyframes greatGleam {
+  0%,
+  8% {
+    background-position: 68% 0;
+  } /* off-left, invisible */
+  20% {
+    background-position: 57% 0;
+  } /* G */
+  32% {
+    background-position: 53% 0;
+  } /* R */
+  44% {
+    background-position: 50% 0;
+  } /* E */
+  56% {
+    background-position: 47% 0;
+  } /* A */
+  68% {
+    background-position: 43% 0;
+  } /* T */
+  78% {
+    background-position: 30% 0;
+  } /* off-right, invisible */
+  100% {
+    background-position: 30% 0;
+  } /* pause before loop */
+}

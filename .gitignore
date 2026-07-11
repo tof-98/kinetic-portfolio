@@ -35,3 +35,8 @@ pnpm-debug.log*
 
 # Claude Code local settings
 .claude/
+
+# design handoffs (not for deployment)
+design/
+
+docs/

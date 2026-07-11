@@ -1,0 +1,57 @@
+---
+import { EXPERIENCE } from '../data/portfolio';
+---
+
+<section id="experience" data-screen-label="Experience">
+  <div class="wrap">
+    <div class="shead rv">
+      <span class="num">04</span>
+      <span class="nm">Experience</span>
+      <span class="rule"></span>
+      <span class="meta">2016 → now</span>
+    </div>
+    <div class="gitlog rv">
+      <div class="pbar">
+        <span class="dot"></span>
+        <span class="cmd">$ <b>git log</b> — career timeline · 2016 → now</span>
+        <span class="live"><i></i>HEAD · main</span>
+      </div>
+      <div class="body">
+        {
+          EXPERIENCE.map((h) => (
+            <div
+              class={`commit ${h.kind === 'current' ? 'head' : h.kind === 'education' ? 'merge' : ''}`}
+            >
+              <div class="rail">
+                <span class="node" />
+              </div>
+              <div class="cm">
+                <div class="cm-top">
+                  <span class="hash">{h.hash}</span>
+                  <span class={`ref ${h.kind === 'current' ? 'headref' : ''}`}>
+                    <span class="pt">{h.refPt}</span> {h.refText}
+                  </span>
+                  <span class="when">{h.date}</span>
+                </div>
+                <h3>
+                  {h.title}
+                  {h.kind === 'current' && <span class="caret" />}
+                </h3>
+                <div class="co">{h.org}</div>
+                <ul class={`msg ${h.kind === 'current' ? '' : 'diff'}`}>
+                  {h.bullets.map((b) => (
+                    <li>{b}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import '../scripts/experience';
+</script>

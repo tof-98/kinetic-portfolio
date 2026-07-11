@@ -1,0 +1,40 @@
+---
+import { SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+}
+const { title = SITE.seo.title } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
+---
+
+<meta charset="UTF-8" />
+<link rel="icon" type="image/svg+xml" href="/th-ascendant-favicon.svg" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>{title}</title>
+<meta name="description" content={SITE.seo.description} />
+<link rel="canonical" href={canonical} />
+<meta property="og:type" content="website" />
+<meta property="og:title" content={SITE.seo.title} />
+<meta property="og:description" content={SITE.seo.ogDescription} />
+<meta property="og:url" content={canonical} />
+{SITE.seo.ogImage && <meta property="og:image" content={SITE.seo.ogImage} />}
+<meta
+  name="twitter:card"
+  content={SITE.seo.ogImage ? 'summary_large_image' : 'summary'}
+/>
+<meta name="twitter:title" content={SITE.seo.title} />
+<meta name="twitter:description" content={SITE.seo.ogDescription} />
+{SITE.seo.ogImage && <meta name="twitter:image" content={SITE.seo.ogImage} />}
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+  rel="stylesheet"
+/>
+<script is:inline>
+  // Paired with the THEME storage key in src/lib/constants.ts — keep literal:
+  // this must run before first paint, so it cannot import from the module graph.
+  if (localStorage.getItem('kinetic-theme') === 'light')
+    document.documentElement.dataset.theme = 'light';
+</script>

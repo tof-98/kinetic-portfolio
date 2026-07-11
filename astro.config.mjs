@@ -1,3 +1,8 @@
 import { defineConfig } from 'astro/config';
+import node from '@astrojs/node';
 
-export default defineConfig({});
+export default defineConfig({
+  site: 'https://toufic-hanna.dev',
+  output: 'hybrid',
+  adapter: node({ mode: 'standalone' }),
+});
