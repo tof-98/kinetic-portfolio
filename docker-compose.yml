@@ -2,9 +2,13 @@ services:
   portfolio:
     build: .
     container_name: kinetic-portfolio
-    ports:
-      - '3000:4321'
     restart: unless-stopped
+    networks:
+      - web
     environment:
       - RESEND_API_KEY=${RESEND_API_KEY}
       - CONTACT_TO_EMAIL=${CONTACT_TO_EMAIL}
+
+networks:
+  web:
+    external: true
