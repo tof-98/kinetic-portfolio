@@ -3,8 +3,10 @@ export const prerender = false;
 import type { APIRoute } from 'astro';
 import { Resend } from 'resend';
 
-const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
-const CONTACT_TO_EMAIL = import.meta.env.CONTACT_TO_EMAIL;
+// process.env (not import.meta.env): values must resolve at runtime in the
+// container — import.meta.env is inlined at build time, when .env is absent.
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const CONTACT_TO_EMAIL = process.env.CONTACT_TO_EMAIL;
 
 const resend = new Resend(RESEND_API_KEY);
 
