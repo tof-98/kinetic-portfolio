@@ -31,35 +31,37 @@
 [data-theme='light'] .bar.stuck {
   background: #f8f6f1cc;
 }
+/* light mode jewel tones: same system as dark (uniform L/C, hue rotates),
+   recalibrated for the cream bg — muted, earthier steps of each hue */
 [data-theme='light'] .h-1 {
-  --g1: oklch(0.78 0.15 310);
-  --g2: oklch(0.62 0.13 310);
-  --wacc: #8b5cf6;
-  --wacc-mk: #7c3aed;
+  --g1: oklch(0.66 0.09 310);
+  --g2: oklch(0.52 0.08 310);
+  --wacc: oklch(0.5 0.09 310);
+  --wacc-mk: oklch(0.45 0.1 310);
 }
 [data-theme='light'] .h-2 {
-  --g1: oklch(0.78 0.15 182);
-  --g2: oklch(0.62 0.13 182);
-  --wacc: #10b981;
-  --wacc-mk: #059669;
+  --g1: oklch(0.66 0.09 182);
+  --g2: oklch(0.52 0.08 182);
+  --wacc: oklch(0.5 0.09 182);
+  --wacc-mk: oklch(0.45 0.1 182);
 }
 [data-theme='light'] .h-3 {
-  --g1: oklch(0.78 0.15 245);
-  --g2: oklch(0.62 0.13 245);
-  --wacc: #0ea5e9;
-  --wacc-mk: #0284c7;
+  --g1: oklch(0.66 0.09 245);
+  --g2: oklch(0.52 0.08 245);
+  --wacc: oklch(0.5 0.09 245);
+  --wacc-mk: oklch(0.45 0.1 245);
 }
 [data-theme='light'] .h-4 {
-  --g1: oklch(0.78 0.15 28);
-  --g2: oklch(0.62 0.13 28);
-  --wacc: #ef4444;
-  --wacc-mk: #dc2626;
+  --g1: oklch(0.66 0.09 28);
+  --g2: oklch(0.52 0.08 28);
+  --wacc: oklch(0.5 0.09 28);
+  --wacc-mk: oklch(0.45 0.1 28);
 }
 [data-theme='light'] .h-5 {
-  --g1: oklch(0.78 0.15 270);
-  --g2: oklch(0.62 0.13 270);
-  --wacc: #6366f1;
-  --wacc-mk: #4f46e5;
+  --g1: oklch(0.66 0.09 270);
+  --g2: oklch(0.52 0.08 270);
+  --wacc: oklch(0.5 0.09 270);
+  --wacc-mk: oklch(0.45 0.1 270);
 }
 [data-theme='light'] .mode.eng {
   background: linear-gradient(180deg, #e8e5dd, #f0ede7);
@@ -116,6 +118,24 @@
   background-size:
     100% 100%,
     230% 100%;
+}
+/* light mode: hover glow/wash calibrated for cream bg (base values assume dark bg) */
+[data-theme='light'] .kw-c:hover {
+  box-shadow: 0 16px 40px -12px color-mix(in srgb, var(--wacc) 20%, transparent);
+}
+[data-theme='light'] .kw-c::after {
+  background: linear-gradient(
+    115deg,
+    transparent 32%,
+    color-mix(in srgb, var(--ink) 5%, transparent) 50%,
+    transparent 78%
+  );
+}
+[data-theme='light'] .dp-lane:hover .dp-wash {
+  opacity: 0.55;
+}
+[data-theme='light'] .dp-lane:hover .dp-ghost {
+  -webkit-text-stroke-color: color-mix(in srgb, var(--wacc-mk) 32%, transparent);
 }
 * {
   box-sizing: border-box;
