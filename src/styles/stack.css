@@ -75,7 +75,7 @@
 .dp-ghost {
   position: absolute;
   z-index: 0;
-  right: 0;
+  right: 8px;
   left: auto;
   top: 50%;
   transform: translateY(-50%);

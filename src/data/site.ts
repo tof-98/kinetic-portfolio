@@ -10,11 +10,11 @@ export const SITE = {
     detail: 'available from Sep 2026',
   },
   seo: {
-    title: 'Toufic Hanna — Full-Stack Developer',
+    title: 'Toufic Hanna — Full-Stack Developer · Java / Spring · React',
     description:
-      "Toufic Hanna — Full-Stack Developer specialising in Java, Spring Boot and React. 2+ years production experience at LITTERA Software & Consulting. Open to remote. ~3 months' notice, available from Sep 2026.",
+      "Toufic Hanna — Full-Stack Developer specialising in Java, Spring and React. 2.5+ years production experience at LITTERA Software & Consulting. Open to relocation & remote. ~3 months' notice, available from Sep 2026.",
     ogDescription:
-      'Production web apps with Java, Spring Boot & React — engineered to ship, scale, and stay secure. 2+ years live at LITTERA Software & Consulting across Austria & Germany.',
+      'Production web apps with Java, Spring & React — engineered to ship, scale, and stay secure. 2.5+ years live at LITTERA Software & Consulting across Austria & Germany.',
     // TODO: add a portrait to src/assets and reference it here to restore
     // og:image / twitter:image (the old /profile-picture.JPG no longer exists).
     ogImage: null as string | null,
