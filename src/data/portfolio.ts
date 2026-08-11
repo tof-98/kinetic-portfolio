@@ -49,9 +49,9 @@ export const HL: Project[] = [
     hue: 'h-1',
     mark: 'WEB',
     group: 'Platform · Migration',
-    scale: 'Sole developer',
+    scale: 'Lead developer',
     name: 'Legacy Desktop → Web Platform',
-    desc: 'Replacing a long-established Windows desktop product with a web application for schools across Germany — sole developer, from specification to implementation.',
+    desc: 'Replacing a long-established Windows desktop product with a web application for schools across Germany — lead developer, from specification to implementation.',
     tags: ['Java', 'Spring', 'React'],
   },
   {
@@ -117,11 +117,12 @@ export const EXPERIENCE: ExperienceEntry[] = [
     title: 'Full-Stack Developer',
     org: 'LITTERA Software & Consulting · Hall in Tirol, AT',
     bullets: [
-      'Sole developer replacing a legacy Windows desktop product with a web application — owning development end-to-end since Jan 2026, deriving work packages and estimates from the specification.',
+      'Lead developer migrating a legacy Windows desktop product into a cloud-ready web application — independently deriving requirements, architecture, and work packages from the specification since Jan 2026.',
       "Rebuilding the legacy product's full functional range: catalogue, lending, receipts, school administration, requirement planning, and more.",
       'Diagnosed and fixed a query over-fetching bug causing timeouts on large deliveries (200+ items).',
       'Implemented MFA (TOTP) with Spring Security and SAML SSO with external partners.',
       'Built multi-tenant admin tooling — tenant filtering by license and org data, plus per-institution catalogue moderation.',
+      'Mentored and onboarded a junior developer/intern through technical guidance, structured code reviews, and pair programming.',
     ],
   },
   {
