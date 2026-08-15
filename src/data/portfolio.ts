@@ -143,10 +143,9 @@ export const EXPERIENCE: ExperienceEntry[] = [
     refPt: 'tag:',
     refText: 'edu',
     date: '2016 — 2022',
-    title: 'B.Sc. Computer Science',
+    title: 'B.Sc. Software Engineering & Information Systems',
     org: 'Tishreen University · Syria · EQF 6',
     bullets: [
-      'Software Engineering & Information Systems.',
       'Focus on database design, network administration, and software development & analysis.',
     ],
   },

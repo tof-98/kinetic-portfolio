@@ -7,6 +7,7 @@ function initCountUp() {
     const $el = $(el);
     const t = +($el.attr('data-count') ?? 0);
     const suf = $el.attr('data-suffix') ?? '';
+    const pre = $el.attr('data-prefix') ?? '';
     let s = 0;
     const step = Math.max(1, Math.round(t / 24));
     const id = setInterval(() => {
@@ -15,7 +16,7 @@ function initCountUp() {
         s = t;
         clearInterval(id);
       }
-      $el.text(s + suf);
+      $el.text(pre + s + suf);
     }, 34);
   };
   const cio = new IntersectionObserver(

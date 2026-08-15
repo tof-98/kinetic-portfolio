@@ -367,9 +367,6 @@
   font-family: var(--mono);
   margin-top: 2px;
 }
-.erow .v .ac {
-  color: var(--accent);
-}
 .chips {
   display: flex;
   flex-wrap: wrap;
