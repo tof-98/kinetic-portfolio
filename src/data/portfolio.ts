@@ -118,10 +118,9 @@ export const EXPERIENCE: ExperienceEntry[] = [
     org: 'LITTERA Software & Consulting · Hall in Tirol, AT',
     bullets: [
       'Lead developer migrating a legacy Windows desktop product into a cloud-ready web application — independently deriving requirements, architecture, and work packages from the specification since Jan 2026.',
-      "Rebuilding the legacy product's full functional range: catalogue, lending, receipts, school administration, requirement planning, and more.",
       'Diagnosed and fixed a query over-fetching bug causing timeouts on large deliveries (200+ items).',
       'Implemented MFA (TOTP) with Spring Security and SAML SSO with external partners.',
-      'Built multi-tenant admin tooling — tenant filtering by license and org data, plus per-institution catalogue moderation.',
+      'Upgraded Uptime Kuma from v1 to v2, migrating the underlying database from SQLite to MariaDB while preserving historical data.',
       'Mentored and onboarded a junior developer/intern through technical guidance, structured code reviews, and pair programming.',
     ],
   },
